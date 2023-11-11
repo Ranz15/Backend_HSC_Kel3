@@ -1,4 +1,4 @@
-const adminModel = require("../models/index");
+const db = require("../models/index");
 
 // Create Data
 const createAdmin = async (req, res) => {
@@ -12,8 +12,7 @@ const createAdmin = async (req, res) => {
   }
 
   try {
-    await adminModel.create({
-      id: body.id,
+    await db.admin.create({
       fullName: body.fullname,
       username: body.username,
       email: body.email,
@@ -23,7 +22,9 @@ const createAdmin = async (req, res) => {
       createAt: Date(),
       updatedAt: Date(),
     });
-    console.log(body);
+    return res.status(201).json({
+      message: "Data Created",
+    });
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
@@ -33,6 +34,20 @@ const createAdmin = async (req, res) => {
 };
 
 // Read Data
+const getAdmin = async (req, res) => {
+  try {
+    const result = await db.admin.findAll();
+    return res.status(200).json({
+      message: "Berhasil mengambil data admin",
+      data: result,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: "Terjadi kesalahan dari server!",
+    });
+  }
+};
 
 // Update Data
 
@@ -40,4 +55,5 @@ const createAdmin = async (req, res) => {
 
 module.exports = {
   createAdmin,
+  getAdmin,
 };

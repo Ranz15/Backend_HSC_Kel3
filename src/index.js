@@ -11,6 +11,7 @@ const ruleLogRequest = require("./middlewares/logs");
 
 // Inisialisasi Routes
 const adminRoutes = require("./routes/admin");
+const authRoutes = require("./routes/auth");
 
 // Pemanggilan Express
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.json());
 
 // Routes Section
 app.use("/admin", adminRoutes);
+app.use("/auth", authRoutes);
 
 // Listen App Port Section
 app.listen(PORT, () => {

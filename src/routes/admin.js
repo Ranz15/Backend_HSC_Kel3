@@ -1,6 +1,7 @@
 // Pemanggilan Library Express
 const express = require("express");
 const { route } = require("express/lib/application");
+const cekUser = require("../middlewares/cekUser");
 
 // Menggunakan function express untuk route
 const router = express.Router();
@@ -11,10 +12,10 @@ const adminControllers = require("../controllers/admin");
 // Route Section
 
 // Create - POST
-router.post("/", adminControllers.createAdmin);
+router.post("/", cekUser, adminControllers.createAdmin);
 
 // Read - GET
-router.get("/");
+router.get("/", adminControllers.getAdmin);
 
 // Update - PATCH
 router.patch("/:idUser");
