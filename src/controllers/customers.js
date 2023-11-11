@@ -1,10 +1,10 @@
 const db = require("../models/index");
 
 // Create Data
-const createAdmin = async (req, res) => {
+const createUser = async (req, res) => {
   const { body } = req;
 
-  if (!body.username || !body.email || !body.password) {
+  if (!body.fullName || !body.username || !body.email || !body.password) {
     return res.status(400).json({
       message: "Anda mengirimkan data yang salah",
       data: null,
@@ -12,8 +12,10 @@ const createAdmin = async (req, res) => {
   }
 
   try {
-    await db.admin.create({
+    await db.customers.create({
       fullName: body.fullname,
+      dateOfBirth: body.dateOfBirth,
+      address: body.address,
       username: body.username,
       email: body.email,
       password: body.password,
@@ -31,11 +33,11 @@ const createAdmin = async (req, res) => {
     });
   }
 };
-
 // Read Data
-const getAllAdmin = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
-    const allData = await db.admin.findAll();
+    const allData = await db.customers.findAll();
+
     res.status(200).json({
       message: "Data berhasil ditampilkan",
       data: allData,
@@ -47,15 +49,17 @@ const getAllAdmin = async (req, res) => {
     });
   }
 };
-
 // Update Data
-const updateAdmin = async (req, res) => {
+const updateUser = async (req, res) => {
   const { idUser } = req.params;
   const { body } = req;
+
   try {
-    await db.admin.update(
+    await db.customers.update(
       {
         fullName: body.fullname,
+        dateOfBirth: body.dateOfBirth,
+        address: body.address,
         username: body.username,
         email: body.email,
         password: body.password,
@@ -80,13 +84,12 @@ const updateAdmin = async (req, res) => {
     });
   }
 };
-
 // Delete Data
-const deleteAdmin = async (req, res) => {
+const deleteUser = async (req, res) => {
   const { idUser } = req.params;
 
   try {
-    await db.admin.destroy({
+    await db.customers.destroy({
       where: {
         id: idUser,
       },
@@ -94,17 +97,13 @@ const deleteAdmin = async (req, res) => {
     res.status(200).json({
       message: "Delete Data Berhasil",
     });
-  } catch (error) {
-    res.status(500).json({
-      message: "Server Error",
-      serverMessage: error,
-    });
-  }
+  } catch (error) {}
 };
 
+// Module export Section
 module.exports = {
-  createAdmin,
-  getAllAdmin,
-  updateAdmin,
-  deleteAdmin,
+  createUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
 };

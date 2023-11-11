@@ -6,20 +6,20 @@ const { route } = require("express/lib/application");
 const router = express.Router();
 
 // Pemanggilan Controller User (untuk logic CRUD)
-const adminControllers = require("../controllers/admin");
+const customersControllers = require("../controllers/customers");
 
 // Route Section
 
 // Create - POST
-router.post("/", adminControllers.createAdmin);
+router.post("/", customersControllers.createUser);
 
 // Read - GET
-router.get("/", adminControllers.getAllAdmin);
+router.get("/", customersControllers.getAllUsers);
 
 // Update - PATCH
-router.patch("/:idUser", adminControllers.updateAdmin);
+router.patch("/:idUser", customersControllers.updateUser);
 
 // Delete - DELETE
-router.delete("/:idUser", adminControllers.deleteAdmin);
+router.delete("/:idUser", customersControllers.deleteUser);
 
 module.exports = router;

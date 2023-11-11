@@ -1,10 +1,10 @@
 const db = require("../models/index");
 
 // Create Data
-const createAdmin = async (req, res) => {
+const createProduct = async (req, res) => {
   const { body } = req;
 
-  if (!body.username || !body.email || !body.password) {
+  if (!body.productName || !body.price || !body.description || !body.stock) {
     return res.status(400).json({
       message: "Anda mengirimkan data yang salah",
       data: null,
@@ -12,13 +12,13 @@ const createAdmin = async (req, res) => {
   }
 
   try {
-    await db.admin.create({
-      fullName: body.fullname,
-      username: body.username,
-      email: body.email,
-      password: body.password,
-      gender: body.gender,
-      phoneNumber: body.phoneNumber,
+    await db.products.create({
+      productName: body.productName,
+      catergoryId: body.catergoryId,
+      price: body.price,
+      description: body.description,
+      stock: body.stock,
+      thumbnail: body.thumbnail,
     });
     res.status(201).json({
       message: "Data Sukses ditambahkan",
@@ -33,9 +33,9 @@ const createAdmin = async (req, res) => {
 };
 
 // Read Data
-const getAllAdmin = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
-    const allData = await db.admin.findAll();
+    const allData = await db.products.findAll();
     res.status(200).json({
       message: "Data berhasil ditampilkan",
       data: allData,
@@ -49,18 +49,18 @@ const getAllAdmin = async (req, res) => {
 };
 
 // Update Data
-const updateAdmin = async (req, res) => {
+const updateproduct = async (req, res) => {
   const { idUser } = req.params;
   const { body } = req;
   try {
-    await db.admin.update(
+    await db.products.update(
       {
-        fullName: body.fullname,
-        username: body.username,
-        email: body.email,
-        password: body.password,
-        gender: body.gender,
-        phoneNumber: body.phoneNumber,
+        productName: body.productName,
+        catergoryId: body.catergoryId,
+        price: body.price,
+        description: body.description,
+        stock: body.stock,
+        thumbnail: body.thumbnail,
       },
       {
         where: {
@@ -82,11 +82,11 @@ const updateAdmin = async (req, res) => {
 };
 
 // Delete Data
-const deleteAdmin = async (req, res) => {
+const deleteproduct = async (req, res) => {
   const { idUser } = req.params;
 
   try {
-    await db.admin.destroy({
+    await db.products.destroy({
       where: {
         id: idUser,
       },
@@ -102,9 +102,10 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
+// Module export Section
 module.exports = {
-  createAdmin,
-  getAllAdmin,
-  updateAdmin,
-  deleteAdmin,
+  createProduct,
+  getAllProducts,
+  updateproduct,
+  deleteproduct,
 };
