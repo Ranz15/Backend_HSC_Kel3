@@ -1,15 +1,13 @@
 const db = require("../models/index");
+const validator = require("validator");
+const crypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Create Data
 const createUser = async (req, res) => {
   const { body } = req;
 
-  if (!body.fullName || !body.username || !body.email || !body.password) {
-    return res.status(400).json({
-      message: "Anda mengirimkan data yang salah",
-      data: null,
-    });
-  }
+  const hashedPassword = crypt.hashSync(body.password, 8);
 
   try {
     await db.customers.create({
@@ -18,7 +16,7 @@ const createUser = async (req, res) => {
       address: body.address,
       username: body.username,
       email: body.email,
-      password: body.password,
+      password: hashedPassword,
       gender: body.gender,
       phoneNumber: body.phoneNumber,
     });
@@ -97,7 +95,58 @@ const deleteUser = async (req, res) => {
     res.status(200).json({
       message: "Delete Data Berhasil",
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+// Login User
+const login = async (req, res) => {
+  try {
+    const { userData } = req;
+    delete userData.password;
+
+    const token = jwt.sign({ id: userData.id }, process.env.JWT_SECRET, {
+      expiresIn: 3600,
+    });
+
+    return res.status(200).send({
+      message: "login berhasil",
+      token: token,
+      userData,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+// Get Profile
+const getProfile = async (req, res) => {
+  try {
+    const { userID } = req;
+
+    const getData = await db.customers.findOne({ where: { id: userID } });
+
+    if (!getData) {
+      return res.status(404).send({ message: `data not found` });
+    }
+
+    return res.status(200).send({
+      message: `get profile success`,
+      data: getData.dataValues,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
 };
 
 // Module export Section
@@ -106,4 +155,6 @@ module.exports = {
   getAllUsers,
   updateUser,
   deleteUser,
+  login,
+  getProfile,
 };
