@@ -3,6 +3,9 @@ require("dotenv").config();
 // Pemanggilan Library Express
 const express = require("express");
 
+// Inisialisasi Sequelize
+const { sequelize } = require("./models");
+
 // Inisialisasi PORT
 const PORT = process.env.SERVER_PORT || 3030;
 
@@ -21,6 +24,16 @@ const app = express();
 // Middleware Section
 app.use(ruleLogRequest);
 
+// Check Connection With Database (Sequelize)
+sequelize
+  .authenticate()
+  .then((error) => {
+    console.log(`Database connection has been established successfully`);
+  })
+  .catch((error) => {
+    console.log(`Connection Error ${error}`);
+  });
+
 // Perizinan untuk menggunakan data dalam bentun JSON Parse
 app.use(express.json());
 
@@ -32,5 +45,5 @@ app.use("/product", productRoutes);
 
 // Listen App Port Section
 app.listen(PORT, () => {
-  console.log(`server berhasil dijalankan pada Port ${PORT}`);
+  console.log(`server berhasil dijalankan pada Port http://localhost:${PORT}`);
 });

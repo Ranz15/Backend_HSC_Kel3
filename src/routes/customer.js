@@ -8,18 +8,32 @@ const router = express.Router();
 // Pemanggilan Controller User (untuk logic CRUD)
 const customersControllers = require("../controllers/customers");
 
+// Inisialisasi Middleware
+const {
+  validatorCreateUser,
+  validateLogin,
+} = require("../middlewares/validator");
+
+const { verifyJWT } = require("../middlewares/verifyToken");
+
 // Route Section
 
 // Create - POST
-router.post("/", customersControllers.createUser);
+router.post("/", validatorCreateUser, customersControllers.createUser);
 
 // Read - GET
-router.get("/", customersControllers.getAllUsers);
+router.get("/", verifyJWT, customersControllers.getAllUsers);
 
 // Update - PATCH
 router.patch("/:idUser", customersControllers.updateUser);
 
 // Delete - DELETE
 router.delete("/:idUser", customersControllers.deleteUser);
+
+// Login - POST
+router.post("/login", validateLogin, customersControllers.login);
+
+// Profile - POST
+router.post("/profile", verifyJWT, customersControllers.getProfile);
 
 module.exports = router;
