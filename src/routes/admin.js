@@ -8,18 +8,21 @@ const router = express.Router();
 // Pemanggilan Controller User (untuk logic CRUD)
 const adminControllers = require("../controllers/admin");
 
+// Inisialisasi Middleware
+const { verifyJWT } = require("../middlewares/verifyToken");
+
 // Route Section
 
 // Create - POST
-router.post("/", adminControllers.createAdmin);
+router.post("/", verifyJWT, adminControllers.createAdmin);
 
 // Read - GET
 router.get("/", adminControllers.getAllAdmin);
 
 // Update - PATCH
-router.patch("/:idUser", adminControllers.updateAdmin);
+router.patch("/:idUser", verifyJWT, adminControllers.updateAdmin);
 
 // Delete - DELETE
-router.delete("/:idUser", adminControllers.deleteAdmin);
+router.delete("/:idUser", verifyJWT, adminControllers.deleteAdmin);
 
 module.exports = router;

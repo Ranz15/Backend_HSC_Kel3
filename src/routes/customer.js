@@ -25,10 +25,10 @@ router.post("/", validatorCreateUser, customersControllers.createUser);
 router.get("/", verifyJWT, customersControllers.getAllUsers);
 
 // Update - PATCH
-router.patch("/:idUser", customersControllers.updateUser);
+router.patch("/:idUser", verifyJWT, customersControllers.updateUser);
 
 // Delete - DELETE
-router.delete("/:idUser", customersControllers.deleteUser);
+router.delete("/:idUser", verifyJWT, customersControllers.deleteUser);
 
 // Login - POST
 router.post("/login", validateLogin, customersControllers.login);
