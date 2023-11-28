@@ -19,7 +19,12 @@ const { verifyJWT } = require("../middlewares/verifyToken");
 // Route Section
 
 // Create - POST
-router.post("/", validatorCreateUser, customersControllers.createUser);
+router.post(
+  "/",
+  verifyJWT,
+  validatorCreateUser,
+  customersControllers.createUser
+);
 
 // Read - GET
 router.get("/", verifyJWT, customersControllers.getAllUsers);
@@ -33,7 +38,7 @@ router.delete("/:idUser", verifyJWT, customersControllers.deleteUser);
 // Login - POST
 router.post("/login", validateLogin, customersControllers.login);
 
-// Profile - POST
+// Profile - POST (beta version - Full bug in maintance)
 router.post("/profile", verifyJWT, customersControllers.getProfile);
 
 module.exports = router;

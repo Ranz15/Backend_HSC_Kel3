@@ -17,7 +17,7 @@ const { verifyJWT } = require("../middlewares/verifyToken");
 router.post("/", verifyJWT, adminControllers.createAdmin);
 
 // Read - GET
-router.get("/", adminControllers.getAllAdmin);
+router.get("/", verifyJWT, adminControllers.getAllAdmin);
 
 // Update - PATCH
 router.patch("/:idUser", verifyJWT, adminControllers.updateAdmin);

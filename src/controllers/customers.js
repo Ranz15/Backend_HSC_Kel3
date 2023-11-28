@@ -7,6 +7,8 @@ const jwt = require("jsonwebtoken");
 const createUser = async (req, res) => {
   const { body } = req;
 
+  console.log(body);
+
   const hashedPassword = crypt.hashSync(body.password, 8);
 
   try {
