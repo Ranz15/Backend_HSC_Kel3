@@ -35,7 +35,14 @@ const createProduct = async (req, res) => {
 // Read Data
 const getAllProducts = async (req, res) => {
   try {
-    const allData = await db.products.findAll();
+    const allData = await db.products.findAll({
+      include: [
+        {
+          model: db.categories,
+          as: "category",
+        },
+      ],
+    });
     res.status(200).json({
       message: "Data berhasil ditampilkan",
       data: allData,

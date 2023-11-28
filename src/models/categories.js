@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+const products = require('./products');
 module.exports = (sequelize, DataTypes) => {
   class categories extends Model {
     /**
@@ -11,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      categories.hasOne(models.products);
     }
   }
   categories.init({

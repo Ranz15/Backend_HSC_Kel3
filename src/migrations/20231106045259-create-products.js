@@ -14,9 +14,14 @@ module.exports = {
         type: Sequelize.STRING,
         length: 255
       },
-      catergoryId: {
-        type: Sequelize.STRING,
-        length: 255
+      categoryId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'categories',
+          key: 'id'
+        },
+        length: 10
       },
       price: {
         type: Sequelize.DECIMAL
