@@ -15,12 +15,15 @@ module.exports = (sequelize, DataTypes) => {
       categories.hasOne(models.products);
     }
   }
-  categories.init({
-    categoryName: DataTypes.STRING,
-    categoryType: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'categories',
-  });
+  categories.init(
+    {
+      categoryName: DataTypes.STRING,
+      categoryType: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: "categories",
+    }
+  );
   return categories;
 };
