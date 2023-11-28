@@ -15,11 +15,13 @@ module.exports = {
         length: 255,
       },
       categoryId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model: "categories",
-          key: "id",
+          model: 'categories',
+          key: 'id'
         },
+        length: 10
       },
       price: {
         type: Sequelize.DECIMAL,
