@@ -8,18 +8,21 @@ const router = express.Router();
 // Pemanggilan Controller User (untuk logic CRUD)
 const categoriesControllers = require("../controllers/categories");
 
+// Inisialisasi Middleware
+const { verifyJWT } = require("../middlewares/verifyToken");
+
 // Route Section
 
 // Create - POST
-router.post("/", categoriesControllers.createCategory);
+router.post("/", verifyJWT, categoriesControllers.createCategory);
 
 // Read - GET
 router.get("/", categoriesControllers.getAllCategory);
 
 // Update - PATCH
-router.patch("/:idUser", categoriesControllers.updateCategory);
+router.patch("/:idUser", verifyJWT, categoriesControllers.updateCategory);
 
 // Delete - DELETE
-router.delete("/:idUser", categoriesControllers.deleteCategory);
+router.delete("/:idUser", verifyJWT, categoriesControllers.deleteCategory);
 
 module.exports = router;

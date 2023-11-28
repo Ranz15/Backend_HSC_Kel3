@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   categories.init(
     {
       categoryName: DataTypes.STRING,
+      // revisi
       categoryType: DataTypes.STRING,
     },
     {
