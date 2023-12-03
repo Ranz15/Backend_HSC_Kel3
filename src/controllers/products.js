@@ -109,10 +109,77 @@ const deleteproduct = async (req, res) => {
   }
 };
 
+// Get All Product Per Categories
+const getAllProductWhereCategories = async (req, res) => {
+  const { namaCategories } = req.params;
+
+  try {
+    const allDataWhere = await db.products.findAll({
+      include: [
+        {
+          model: db.categories,
+          as: "category",
+          // apabila berdasarkan category name didalam relasi
+          where: {
+            categoryName: namaCategories,
+          },
+        },
+      ],
+      // apabila berdasarkan categoryId diluar relasi
+      // where: {
+      //   categoryId: idCategories,
+      // },
+    });
+
+    res.status(200).json({
+      message: "Data berhasil ditampilkan",
+      data: allDataWhere,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error.message,
+    });
+  }
+};
+
+// Get Data Per ID
+const productDetail = async (req, res) => {
+  const { idUser } = req.params;
+
+  try {
+    const allDataWhereID = await db.products.findOne({
+      where: {
+        id: idUser,
+      },
+    });
+
+    if (!allDataWhereID) {
+      res.status(404).json({
+        message: "Data tidak ditemukan",
+      });
+    } else {
+      res.status(200).json({
+        message: "Data berhasil ditampilkan",
+        data: allDataWhereID,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error.message,
+    });
+  }
+};
+
 // Module export Section
 module.exports = {
   createProduct,
   getAllProducts,
   updateproduct,
   deleteproduct,
+  getAllProductWhereCategories,
+  productDetail,
 };
